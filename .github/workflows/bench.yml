@@ -217,4 +217,4 @@ jobs:
       name: ${ matrix.target.name }
       perf: ${ matrix.target.perf }
     secrets:
-      AWS_GH_TOKEN: ${ secrets.AWS_GH_TOKEN }
+      AWS_GH_TOKEN: ${{ secrets.AWS_GH_TOKEN }}
