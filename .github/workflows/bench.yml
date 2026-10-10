@@ -50,7 +50,7 @@ jobs:
           nix_shell: bench
           only_no_opt: false
           cross_prefix: ""
-          extra_makefile: ""
+          extra_Makefile: ""
           zephyr_target: ""
         - system: a55
           name: Arm Cortex-A55 (Snapdragon 888) benchmarks
@@ -61,7 +61,7 @@ jobs:
           bench_extra_args: -w exec-on-a55
           nix_shell: bench
           only_no_opt: false
-          extra_makefile: ""
+          extra_Makefile: ""
           zephyr_target: ""
         - system: bpi
           name: SpacemiT K1 8 (Banana Pi F3) benchmarks
@@ -72,8 +72,8 @@ jobs:
           bench_extra_args: -w exec-on-bpi
           cross_prefix: riscv64-unknown-linux-gnu-
           nix_shell: cross-riscv64
-          only_no_opt: false
-          extra_makefile: ""
+          only_no_opt: true
+          extra_Makefile: ""
           zephyr_target: ""
         - system: m1-mac-mini
           name: Mac Mini (M1, 2020) benchmarks
@@ -84,7 +84,7 @@ jobs:
           bench_extra_args: "-r"
           nix_shell: bench
           only_no_opt: false
-          extra_makefile: ""
+          extra_Makefile: ""
           zephyr_target: ""
         - system: nucleo-n657x0
           name: Arm Cortex-M55 (NUCLEO-N657X0-Q) benchmarks
@@ -96,10 +96,10 @@ jobs:
           nix_shell: zephyr
           only_no_opt: false
           cross_prefix: ""
-          extra_makefile: test/zephyr/platform.mk
+          extra_Makefile: test/zephyr/platform.mk
           zephyr_target: nucleo-n657x0-q
     if: github.repository_owner == 'pq-code-package' && !github.event.pull_request.head.repo.fork && (github.event.label.name == 'benchmark' || github.ref == 'refs/heads/main')
-    runs-on: ubuntu-latest, self-hosted-${{ matrix.target.system }}
+    runs-on: self-hosted-${{ matrix.target.system }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -117,7 +117,7 @@ jobs:
           perf: ${{ matrix.target.bench_pmu }}
           store_results: ${{ github.repository_owner == 'pq-code-package' && github.ref == 'refs/heads/main' }}
           bench_extra_args: ${{ matrix.target.bench_extra_args }}
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          gh_token: ${{ secrets.github_token }}
           nix-shell: ${{ matrix.target.nix_shell }}
           cross_prefix: ${{ matrix.target.cross_prefix }}
           opt: true
@@ -133,7 +133,7 @@ jobs:
           perf: ${{ matrix.target.bench_pmu }}
           store_results: ${{ github.repository_owner == 'pq-code-package' && github.ref == 'refs/heads/main' }}
           bench_extra_args: ${{ matrix.target.bench_extra_args }}
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          gh_token: ${{ secrets.github_token }}
           nix-shell: ${{ matrix.target.nix_shell }}
           cross_prefix: ${{ matrix.target.cross_prefix }}
           opt: false
@@ -145,7 +145,7 @@ jobs:
       pull-requests: write
       id-token: write
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         target:
           - name: Graviton2
@@ -217,4 +217,4 @@ jobs:
       name: ${{ matrix.target.name }}
       perf: ${{ matrix.target.perf }}
     secrets:
-      AWS_GITHUB_TOKEN: ${{ secrets.AWS_GITHUB_TOKEN }}
+      AWS_github_token: ${{ secrets.AWS_github_token }}
