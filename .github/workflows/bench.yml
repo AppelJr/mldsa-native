@@ -205,7 +205,7 @@ jobs:
             ldflags: "-flto"
             perf: PMU
     uses: ./.github/workflows/bench_ec2_reusable.yml
-    if: github.repository_owner == 'appeljr' && !github.event.pull_request.head.repo.fork && (github.event.label.name == 'benchmark' || github.ref == 'refs/heads/main')
+    if: github.repository_owner == 'pq-code-package' && !github.event.pull_request.head.repo.fork && (github.event.label.name == 'benchmark' || github.ref == 'refs/heads/main')
     with:
       ec2_instance_type: ${{ matrix.target.ec2_instance_type }}
       ec2_ami: ${{ matrix.target.ec2_ami }}
@@ -213,7 +213,7 @@ jobs:
       cflags: ${{ matrix.target.cflags }}
       ldflags: ${{ matrix.target.ldflags }}
       opt: "all"
-      store_results: ${{ github.repository_owner == 'appeljr' && github.ref == 'refs/heads/main' }} # Only store optimized results
+      store_results: ${{ github.repository_owner == 'pq-code-package' && github.ref == 'refs/heads/main' }} # Only store optimized results
       name: ${{ matrix.target.name }}
       perf: ${{ matrix.target.perf }}
     secrets:
